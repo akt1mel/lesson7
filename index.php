@@ -1,19 +1,16 @@
 <?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 
 require_once ('db.php');
 
-$fetch = $pdo->prepare('SELECT * FROM books');
-$fetch->execute();
-
-if ($_GET) {
-    $isbn = $_GET['isbn'];
-    $name = $_GET['name'];
-    $author = $_GET['author'];
-    $fetch = $pdo->prepare("SELECT * FROM books WHERE (isbn LIKE ?) AND (name LIKE ?) AND (author LIKE ?)");
-    $params = array("%$isbn%","%$name%","%$author%");
-    $fetch->execute($params);
-
-}
+$isbn = !empty($_GET['isbn']) ? $_GET['isbn'] : "";
+$name = !empty($_GET['name']) ? $_GET['name'] : "";
+$author = !empty($_GET['author']) ? $_GET['author'] : "";
+$fetch = $pdo->prepare("SELECT * FROM books WHERE (isbn LIKE ?) AND (name LIKE ?) AND (author LIKE ?)");
+$params = array("%$isbn%","%$name%","%$author%");
+$fetch->execute($params);
 
 ?>
 
